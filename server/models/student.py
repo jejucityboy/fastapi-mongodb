@@ -21,7 +21,6 @@ class StudentSchema(BaseModel):
             }
         }
 
-
 class UpdateStudentModel(BaseModel):
     fullname: Optional[str]
     email: Optional[EmailStr]
