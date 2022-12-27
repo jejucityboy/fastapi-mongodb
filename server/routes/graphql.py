@@ -34,29 +34,71 @@ def student_helper(student) -> dict:
 
 @strawberry.type
 class Student:
-    # _id: str
+    _id: str
     fullname: str
     email: str
-    # course_of_study: str
-    # year: int
-    # GPA: float
+    course_of_study: str
+    year: int
+    gpa: float
+
+@strawberry.type
+class Students:
+    _id: List[str]
+    fullname: List[str]
+    email: List[str]
+    course_of_study: List[str]
+    year: List[int]
+    gpa: List[float]
+
+@strawberry.type
+class Allofthem:
+    all: List[str]
+
 
 @strawberry.type
 class Query:
-    # @strawberry.field
-    # def get_students(_id: str) -> Student:
-    #
-    #     student = student_collection.find_one({"_id": ObjectId(_id)})
-    #         if student:
-    #
-    #     return Student(fullname=fullname, email=email)
+    @strawberry.field
+    def get_students(_id: str) -> Student:
+
+        student = student_collection.find_one({"_id": ObjectId(_id)})
+        print(student)
+        # _id = student['_id']
+        fullname = student['fullname']
+        email = student['email']
+        course_of_study = student['course_of_study']
+        year = student['year']
+        gpa = student['gpa']
+
+        return Student(_id=_id, fullname=fullname, email=email, course_of_study=course_of_study, year=year, gpa=gpa)
 
     @strawberry.field
-    def get_students() -> List[str]:
-        students = []
+    def get_students_all() -> Students:
+
+        _id = []
+        fullname = []
+        email = []
+        course_of_study = []
+        year = []
+        gpa = []
+
         for student in student_collection.find():
-            students.append(student_helper(student))
-        return students
+            _id.append(student['_id'])
+            fullname.append(student['fullname'])
+            email.append(student['email'])
+            course_of_study.append(student['course_of_study'])
+            year.append(student['year'])
+            gpa.append(student['gpa'])
+
+        return Students(_id=_id, fullname=fullname, email=email, course_of_study=course_of_study, year=year, gpa=gpa)
+
+    # @strawberry.field
+    # def all_of_them() -> Allofthem:
+    #
+    #     all_of_them = []
+    #
+    #     for student in student_collection.find():
+    #         all_of_them
+
 
 @strawberry.type
 class Mutation:
