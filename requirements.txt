@@ -3,3 +3,5 @@ uvicorn==0.17.4
 pydantic[email]
 motor==2.5.1
 python-decouple==3.6
+strawberry-graphql[fastapi]
+pymongo==3.13.0
